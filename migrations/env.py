@@ -4,6 +4,8 @@ from alembic import context
 from litestar.plugins.sqlalchemy import base
 from sqlalchemy import engine_from_config, pool
 
+from src.config import config as app_config
+
 # this is the Alembic Config object, which provides
 # access to the values within the .ini file in use.
 config = context.config
@@ -13,14 +15,13 @@ config = context.config
 if config.config_file_name is not None:
     fileConfig(config.config_file_name)
 
-# add your model's MetaData object here
-# for 'autogenerate' support
-target_metadata = base.Base.metadata
+target_metadata = base.BigIntAuditBase.metadata
 
-# other values from the config, defined by the needs of env.py,
-# can be acquired:
-# my_important_option = config.get_main_option("my_important_option")
-# ... etc.
+config.set_main_option("DB_USER", app_config.db.DB_USER)
+config.set_main_option("DB_PASSWORD", app_config.db.DB_PASSWORD)
+config.set_main_option("DB_HOST", app_config.db.DB_HOST)
+config.set_main_option("DB_PORT", app_config.db.DB_PORT)
+config.set_main_option("DB_NAME", app_config.db.DB_NAME)
 
 
 def run_migrations_offline() -> None:
