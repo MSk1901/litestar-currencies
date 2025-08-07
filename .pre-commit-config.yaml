@@ -58,6 +58,14 @@ repos:
     rev: v1.7.7
     hooks:
       - id: autoflake
+        name: autoflake except __init__.py
         args: [--remove-all-unused-imports, --remove-unused-variables, --in-place]
         types: [python]
+        exclude: ^migrations/|__init__\.py$
+
+      - id: autoflake
+        name: autoflake __init__.py safe
+        args: [--remove-unused-variables, --in-place]
+        types: [python]
+        files: __init__\.py$
         exclude: ^migrations/
