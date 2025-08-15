@@ -61,7 +61,7 @@ repos:
         name: autoflake except __init__.py
         args: [--remove-all-unused-imports, --remove-unused-variables, --in-place]
         types: [python]
-        exclude: ^migrations/|__init__\.py$
+        exclude: ^migrations/|__init__\.py$|^src/main\.py$
 
       - id: autoflake
         name: autoflake __init__.py safe
