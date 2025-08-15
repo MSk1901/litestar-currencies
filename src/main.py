@@ -1,5 +1,6 @@
 from litestar import Litestar
 
+from src.apps.datasource.parser.tasks import fetch_rates_handler
 from src.config import faststream_broker, sqlalchemy_plugin
 
 app = Litestar(
