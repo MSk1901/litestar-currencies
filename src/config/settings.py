@@ -18,12 +18,25 @@ class EnvSettings(BaseSettings):
     )
 
 
+class RabbitMQSettings(BaseSettings):
+    RABBITMQ_USER: str = "guest"
+    RABBITMQ_PASSWORD: str = "guest"
+    RABBITMQ_HOST: str = "localhost"
+    RABBITMQ_PORT: str = "5672"
+
+    @property
+    def rabbitmq_url(self) -> str:
+        return f"amqp://{self.RABBITMQ_USER}:{self.RABBITMQ_PASSWORD}@{self.RABBITMQ_HOST}:{self.RABBITMQ_PORT}/"
+
+
 class DatabaseSettings(EnvSettings):
     DB_NAME: str = "postgres"
     DB_USER: str = "postgres"
     DB_PASSWORD: str = ""
     DB_HOST: str = "localhost"
     DB_PORT: str = "5432"
+
+    ENABLE_ECHO: bool = False
 
     @property
     def database_url(self):
@@ -42,6 +55,7 @@ class AppSettings(EnvSettings):
 class Config(EnvSettings):
     app: AppSettings = AppSettings()
     db: DatabaseSettings = DatabaseSettings()
+    rabbitmq: RabbitMQSettings = RabbitMQSettings()
 
 
 config = Config()
