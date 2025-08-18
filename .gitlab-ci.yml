@@ -1,0 +1,19 @@
+stages:
+  - lint
+
+pre-commit:
+  stage: lint
+  image: python:3.12
+  cache:
+    paths:
+      - .cache/pip
+      - .cache/pre-commit
+  before_script:
+    - pip install --upgrade pip
+    - pip install pre-commit
+  script:
+    - pre-commit install-hooks
+    - pre-commit run --all-files
+  rules:
+    - if: '$CI_PIPELINE_SOURCE == "merge_request_event"'
+    - if: '$CI_PIPELINE_SOURCE == "push"'
