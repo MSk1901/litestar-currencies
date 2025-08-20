@@ -5,9 +5,9 @@ from sqlalchemy.ext.asyncio import AsyncSession
 
 from src.apps.currency.models import Currency
 from src.apps.currency_rate.models import CurrencyRate
+from src.apps.datasource.constants import DataSourceEnum
 from src.apps.datasource.models import DataSource
-from src.apps.datasource.parser.cbr_parser import CbrParser
-from src.apps.datasource.parser.constants import DataSourceEnum
+from src.apps.datasource.parser import CbrParser, FCAParser
 from src.config.database import async_session
 from src.config.faststream import faststream_broker
 
@@ -16,6 +16,7 @@ logger = logging.getLogger(__name__)
 
 PARSER_MAPPING = {
     DataSourceEnum.CBR.name: CbrParser,
+    DataSourceEnum.FCA.name: FCAParser,
 }
 
 
@@ -40,6 +41,7 @@ async def get_currencies(session: AsyncSession) -> None:
 
 
 @faststream_broker.subscriber("fetch.cbr.rates")
+@faststream_broker.subscriber("fetch.fca.rates")
 async def fetch_rates_handler(data_source_name: str) -> None:
     async with async_session.begin() as session:
         source = await session.scalar(select(DataSource).filter_by(name=data_source_name))

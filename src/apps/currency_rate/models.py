@@ -30,6 +30,12 @@ class CurrencyRate(Base):
     data_source: Mapped["DataSource"] = relationship("DataSource")
 
     __table_args__ = (
-        UniqueConstraint("currency_id", "date", "base_currency_id", name="uix_currency_date_base"),
+        UniqueConstraint(
+            "currency_id",
+            "date",
+            "base_currency_id",
+            "data_source_id",
+            name="uix_currency_date_base",
+        ),
         Index("ix_currency_rate_currency_date", "currency_id", "date"),
     )

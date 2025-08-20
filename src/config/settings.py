@@ -18,7 +18,7 @@ class EnvSettings(BaseSettings):
     )
 
 
-class RabbitMQSettings(BaseSettings):
+class RabbitMQSettings(EnvSettings):
     RABBITMQ_USER: str = "guest"
     RABBITMQ_PASSWORD: str = "guest"
     RABBITMQ_HOST: str = "localhost"
@@ -50,6 +50,8 @@ class AppSettings(EnvSettings):
     BACK_URL: str = "127.0.0.1"
     FRONT_URL: str = "127.0.0.1"
     MEDIA_ROOT: str = "media"
+
+    FCA_API_KEY: str = ""
 
 
 class Config(EnvSettings):
