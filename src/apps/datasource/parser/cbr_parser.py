@@ -26,7 +26,8 @@ class CbrParser(BaseParser):
 
     async def parse_rates(self) -> List[CurrencyRateDTO]:
         """Парсинг курсов валют"""
-        response = await self.fetch("XML_daily.asp")
+        today_date = date.today().strftime("%d/%m/%Y")
+        response = await self.fetch(f"XML_daily.asp?date_req={today_date}")
         raw_data = await response.text()
 
         root = ET.fromstring(raw_data)
