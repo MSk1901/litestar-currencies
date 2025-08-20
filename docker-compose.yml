@@ -56,6 +56,21 @@ services:
       timeout: 30s
       retries: 10
 
+
+  taskiq-scheduler:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    command: >
+      taskiq scheduler src.config.taskiq:scheduler
+    env_file:
+      - .env
+    depends_on:
+      rabbitmq:
+        condition: service_healthy
+    networks:
+      - backend_network
+
 volumes:
   db_data:
   rabbitmq_data:
