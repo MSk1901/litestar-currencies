@@ -3,19 +3,18 @@ from decimal import Decimal
 from typing import TYPE_CHECKING
 from uuid import UUID
 
+from litestar.plugins.sqlalchemy import base
 from sqlalchemy import Boolean, Date, ForeignKey, Index, Numeric, UniqueConstraint
 from sqlalchemy.orm import Mapped
 from sqlalchemy.orm import mapped_column as mc
 from sqlalchemy.orm import relationship
-
-from src.config.database import Base
 
 if TYPE_CHECKING:
     from src.apps.currency.models import Currency
     from src.apps.datasource.models import DataSource
 
 
-class CurrencyRate(Base):
+class CurrencyRate(base.UUIDAuditBase):
     __tablename__ = "currency_rate"
 
     currency_id: Mapped[UUID] = mc(ForeignKey("currency.id"))
