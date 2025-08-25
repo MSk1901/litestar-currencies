@@ -1,5 +1,6 @@
 from sqlalchemy import func, select
 from sqlalchemy.ext.asyncio import AsyncSession
+from sqlalchemy.orm import aliased
 
 from src.apps.currency.models import Currency
 from src.apps.currency_rate.models import CurrencyRate
@@ -11,6 +12,7 @@ class CurrencyRateRepository:
 
     async def get_actual_rates(self) -> list:
         """Получение актуальных курсов"""
+        BaseCurrency = aliased(Currency)
         async with self.session as session:
             subquery = (
                 select(
@@ -19,7 +21,9 @@ class CurrencyRateRepository:
                     CurrencyRate.date,
                     func.avg(CurrencyRate.value).label("rate"),
                 )
+                .join(BaseCurrency, CurrencyRate.base_currency_id == BaseCurrency.id)
                 .where(CurrencyRate.is_actual.is_(True))
+                .where(BaseCurrency.code == "RUB")
                 .where(CurrencyRate.value != 0)
                 .group_by(
                     CurrencyRate.currency_id, CurrencyRate.base_currency_id, CurrencyRate.date
