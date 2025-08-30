@@ -18,15 +18,14 @@ class EnvSettings(BaseSettings):
     )
 
 
-class RabbitMQSettings(EnvSettings):
-    RABBITMQ_USER: str = "guest"
-    RABBITMQ_PASSWORD: str = "guest"
-    RABBITMQ_HOST: str = "localhost"
-    RABBITMQ_PORT: str = "5672"
+class AppSettings(EnvSettings):
+    DEBUG: bool = False
+    CORS_ORIGIN: List[str] = field(default=["*"])
+    BACK_URL: str = "127.0.0.1"
+    FRONT_URL: str = "127.0.0.1"
+    MEDIA_ROOT: str = "media"
 
-    @property
-    def rabbitmq_url(self) -> str:
-        return f"amqp://{self.RABBITMQ_USER}:{self.RABBITMQ_PASSWORD}@{self.RABBITMQ_HOST}:{self.RABBITMQ_PORT}/"
+    FCA_API_KEY: str = ""
 
 
 class DatabaseSettings(EnvSettings):
@@ -39,19 +38,20 @@ class DatabaseSettings(EnvSettings):
     ENABLE_ECHO: bool = False
 
     @property
-    def database_url(self):
+    def database_url(self) -> str:
         """URL database Postgres."""
         return f"postgresql+asyncpg://{self.DB_USER}:{self.DB_PASSWORD}@{self.DB_HOST}:{self.DB_PORT}/{self.DB_NAME}"
 
 
-class AppSettings(EnvSettings):
-    DEBUG: bool = False
-    CORS_ORIGIN: List[str] = field(default=["*"])
-    BACK_URL: str = "127.0.0.1"
-    FRONT_URL: str = "127.0.0.1"
-    MEDIA_ROOT: str = "media"
+class RabbitMQSettings(EnvSettings):
+    RABBITMQ_USER: str = "guest"
+    RABBITMQ_PASSWORD: str = "guest"
+    RABBITMQ_HOST: str = "localhost"
+    RABBITMQ_PORT: str = "5672"
 
-    FCA_API_KEY: str = ""
+    @property
+    def rabbitmq_url(self) -> str:
+        return f"amqp://{self.RABBITMQ_USER}:{self.RABBITMQ_PASSWORD}@{self.RABBITMQ_HOST}:{self.RABBITMQ_PORT}/"
 
 
 class Config(EnvSettings):

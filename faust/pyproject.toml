@@ -1,0 +1,21 @@
+[project]
+name = "currencies"
+version = "0.1.0"
+description = ""
+authors = [
+    {name = "Mariya Kuznetsova",email = "kuznetsova19.m@gmail.com"}
+]
+readme = "README.md"
+requires-python = ">=3.9,<3.10"
+dependencies = [
+    "faust (>=1.10.4,<2.0.0)",
+]
+
+
+[build-system]
+requires = ["poetry-core>=2.0.0,<3.0.0"]
+build-backend = "poetry.core.masonry.api"
+
+[tool.isort]
+profile = "black"
+line_length = 100
