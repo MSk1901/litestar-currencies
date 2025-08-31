@@ -54,10 +54,16 @@ class RabbitMQSettings(EnvSettings):
         return f"amqp://{self.RABBITMQ_USER}:{self.RABBITMQ_PASSWORD}@{self.RABBITMQ_HOST}:{self.RABBITMQ_PORT}/"
 
 
+class KafkaSettings(EnvSettings):
+    KAFKA_HOST: str = "kafka"
+    KAFKA_PORT: str = "9092"
+
+
 class Config(EnvSettings):
     app: AppSettings = AppSettings()
     db: DatabaseSettings = DatabaseSettings()
     rabbitmq: RabbitMQSettings = RabbitMQSettings()
+    kafka: KafkaSettings = KafkaSettings()
 
 
 config = Config()
