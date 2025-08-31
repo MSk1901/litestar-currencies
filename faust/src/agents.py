@@ -18,7 +18,7 @@ async def process_requests(stream):
         ip = event["ip"]
         key = (ip, minute_key)
         request_count[key] += 1
-        if request_count[key] > 10 and last_alerted[ip] != interval_key:
+        if request_count[key] > 1000 and last_alerted[ip] != interval_key:
             warning = WarningEvent(ip=event["ip"], count=request_count[key], second=minute_key)
             await warning_topic.send(value=warning)
             last_alerted[ip] = interval_key
