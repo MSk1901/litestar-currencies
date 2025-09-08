@@ -1,10 +1,10 @@
 <script setup>
 const route = useRoute()
-const activeIndex = route.path
+const activeIndex = route.fullPath
 </script>
 
 <template>
-  <div>
+  <div class="layout-container">
     <el-header class="header-fixed">
       <el-menu class="header-menu" :default-active="activeIndex" mode="horizontal" router>
         <el-menu-item index="/">Главная</el-menu-item>
@@ -12,7 +12,7 @@ const activeIndex = route.path
       </el-menu>
     </el-header>
 
-    <el-main class="main-scrollable">
+    <el-main class="main-content">
       <slot />
     </el-main>
 
@@ -23,6 +23,12 @@ const activeIndex = route.path
 </template>
 
 <style scoped>
+.layout-container {
+  height: 100vh;
+  overflow: hidden;
+  position: relative;
+}
+
 .header-fixed {
   position: fixed;
   top: 0;
@@ -51,11 +57,12 @@ const activeIndex = route.path
   line-height: 60px;
 }
 
-.main-scrollable {
+.main-content {
   padding: 60px 100px;
-  min-height: 100vh;
-  overflow-y: auto;
+  height: calc(100vh - 120px); /* Высота минус header и footer */
+  overflow: hidden;
   box-sizing: border-box;
   background: #f8f8f8;
+  margin-top: 60px; /* Высота header */
 }
 </style>
