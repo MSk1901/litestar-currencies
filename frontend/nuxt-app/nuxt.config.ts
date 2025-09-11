@@ -12,6 +12,11 @@ export default defineNuxtConfig({
             apiUrl: "",
         }
     },
+    nitro: {
+        prerender: {
+            crawlLinks: false
+        },
+    },
     css: ["@/assets/css/global.css"],
     modules: ["@element-plus/nuxt", "@nuxt/fonts", "@pinia/nuxt", "nuxt-echarts"],
     fonts: {
