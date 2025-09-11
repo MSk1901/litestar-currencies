@@ -3,7 +3,7 @@ from litestar import Litestar
 from src.apps.datasource.tasks import fetch_rates_handler
 from src.config import RequestAuditMiddleware, api_router, config, cors_config, faststream_broker
 from src.config import lifespan as kafka_lifespan
-from src.config import openapi_config, sqlalchemy_plugin
+from src.config import openapi_config, prometheus_config, sqlalchemy_plugin
 
 app = Litestar(
     debug=config.app.DEBUG,
@@ -13,6 +13,6 @@ app = Litestar(
     on_shutdown=[faststream_broker.stop],
     openapi_config=openapi_config,
     route_handlers=[api_router],
-    middleware=[RequestAuditMiddleware()],
+    middleware=[RequestAuditMiddleware(), prometheus_config.middleware],
     cors_config=cors_config,
 )
