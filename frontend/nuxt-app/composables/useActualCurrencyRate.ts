@@ -1,5 +1,6 @@
 export const useActualCurrencyRate = () => {
-    const apiUrl = useRuntimeConfig().public.apiUrl
+    const config = useRuntimeConfig()
+    const apiUrl = Boolean(useRequestEvent()) ? config.apiUrl : config.public.apiUrl
 
     const fetchActualRate = () => {
         const url = `${apiUrl}/api/rates/actual`
