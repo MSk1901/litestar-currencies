@@ -1,0 +1,14 @@
+server:
+  log_level: info
+
+metrics:
+  wal_directory: /tmp/grafana-agent-wal
+  global:
+    scrape_interval: 15s
+  configs:
+    - name: prometheus
+      scrape_configs:
+        - job_name: "litestar"
+          static_configs:
+            - targets: ["backend:8000"]
+          metrics_path: /api/metrics

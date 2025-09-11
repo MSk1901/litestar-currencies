@@ -137,6 +137,18 @@ services:
     networks:
       - backend_network
 
+  grafana-agent:
+    image: grafana/agent:v0.38.1
+    volumes:
+      - ./grafana-agent.yaml:/etc/agent/agent.yaml
+      - ./grafana-wal:/tmp/grafana-agent-wal
+    command:
+      - "--config.file=/etc/agent/agent.yaml"
+    depends_on:
+      - backend
+    networks:
+      - backend_network
+
 volumes:
   db_data:
   rabbitmq_data:
