@@ -46,7 +46,8 @@ actions: {
       this.error = null
 
       try {
-        const apiUrl = useRuntimeConfig().public.apiUrl
+        const config = useRuntimeConfig()
+        const apiUrl = Boolean(useRequestEvent()) ? config.apiUrl : config.public.apiUrl
         const currencies_list = await $fetch(`${apiUrl}/api/currencies`)
 
         this.currencies = currencies_list as any[]
