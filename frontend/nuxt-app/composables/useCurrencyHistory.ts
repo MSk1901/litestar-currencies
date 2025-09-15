@@ -1,6 +1,6 @@
 export const useCurrencyHistory = () => {
     const config = useRuntimeConfig()
-    const apiUrl = Boolean(useRequestEvent()) ? config.apiUrl : config.public.apiUrl
+    const apiUrl = useRequestEvent() ? config.apiUrl : config.public.apiUrl
     const { getToday } = useDates()
 
     const fetchHistory = (startDate: string, endDate: string = getToday()) => {
