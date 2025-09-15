@@ -20,3 +20,10 @@ kafka_read_topic:kafka_check_topic
 	docker exec -it $(KAFKA_CONTAINER_NAME) kafka-console-consumer \
 	--bootstrap-server kafka:9092 --topic $(TOPIC) --from-beginning \
 	--property print.key=true --property key.separator=:
+
+sonarqube_scan:
+	docker run --rm \
+	-e SONAR_HOST_URL="http://host.docker.internal:9000" \
+	-v "$$(pwd):/usr/src" \
+	sonarsource/sonar-scanner-cli \
+	-Dsonar.token=$(SONARQUBE_TOKEN)
